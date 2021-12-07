@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <ol>
+        <li><a href="{% url "socialcontenttypes:create" "text" %}">Create text post</a></li>
+        <li><a href="{% url "socialcontenttypes:create" "image" %}">Create image post</a></li>
+
+        <li><a href="{% url "socialcontenttypes:create" "youtuve" %}">Create youtube post</a></li>
+
+        <li><a href="{% url "socialcontenttypes:create" "url" %}">Create url post</a></li>
+
+    </ol>
+    {% for post in posts %}
+        <h2>{{ post.title }}</h2>
+        {% with post.content_object.POST_TYPE as post_type %}
+            {% if post_type == "text" %}
+                <p>{{ post.content_object.body }}</p>
+            {% elif post_type == "image" %}
+                <img src="{{ post.content_object.image.url }}" alt="{{ post.title }}">
+            {% elif post_type == "youtube" %}
+                {% include "_youtube-embed.html" with video_id=post.content_object.video_id %}
+            {% elif post_type == "url" %}
+                <a href="{{ post.content_object.url }}">{{ post.content_object.url }}</a>
+            {% endif %}
+        {% endwith %}
+
+    {% endfor %}
+    {% include "_pagination.html" %}
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <ol>
+    <li><a href="{% url "socialjson:create" 0 %}">Create text post</a></li>
+    <li><a href="{% url "socialjson:create" 1 %}">Create Youtube post</a></li>
+    <li><a href="{% url "socialjson:create" 2 %}">Create Image post</a></li>
+    <li><a href="{% url "socialjson:create" 3 %}">Create URL post</a></li>
+    </ol>
+    {% for post in posts %}
+        <h2>{{ post.title }}</h2>
+        {% if post.data.text_body %}
+            <p>{{ post.data.text_body }}</p>
+        {% elif post.data.image %}
+            <img src="{{ post.data.image }}" alt="{{ post.title }}">
+        {% elif post.data.video_id %}
+            {% include "_youtube-embed.html" with video_id=post.data.video_id %}
+        {% elif post.data.url %}
+            <a href="{{ post.data.url }}">{{ post.data.url }}</a>
+        {% endif %}
+    {% endfor %}
+    {% include "_pagination.html" %}
+{% endblock %}

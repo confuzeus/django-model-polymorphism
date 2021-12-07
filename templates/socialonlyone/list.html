@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <ol>
+    <li><a href="{% url "socialonlyone:create" 0 %}">Create text post</a></li>
+        <li><a href="{% url "socialonlyone:create" 1 %}">Create youtube post</a></li>
+
+        <li><a href="{% url "socialonlyone:create" 2 %}">Create image post</a></li>
+
+        <li><a href="{% url "socialonlyone:create" 3 %}">Create url post</a></li>
+    </ol>
+    {% for post in posts %}
+        <h2>{{ post.title }}</h2>
+        {% if post.text_body %}
+            <p>{{ post.text_body }}</p>
+        {% elif post.image %}
+            <img src="{{ post.image.url }}" alt="{{ post.title }}">
+        {% elif post.youtube_video_id %}
+            {% include "_youtube-embed.html" with video_id=post.youtube_video_id %}
+        {% elif post.url %}
+            <a href="{{ post.url }}">{{ post.url }}</a>
+        {% endif %}
+    {% endfor %}
+{% include "_pagination.html" %}
+{% endblock %}

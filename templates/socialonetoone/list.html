@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <ol>
+        <li><a href="{% url "socialonetoone:create" "text" %}">Create text post</a></li>
+        <li><a href="{% url "socialonetoone:create" "image" %}">Create image post</a></li>
+
+        <li><a href="{% url "socialonetoone:create" "youtube" %}">Create youtube post</a></li>
+
+        <li><a href="{% url "socialonetoone:create" "url" %}">Create url post</a></li>
+
+    </ol>
+    {% for post in posts %}
+        <h2>{{ post.title }}</h2>
+
+        {% if post.text_post %}
+            <p>{{ post.text_post.body }}</p>
+        {% elif post.image_post %}
+            <img src="{{ post.image_post.image.url }}" alt="{{ post.title }}">
+        {% elif post.youtube_post %}
+            {% include "_youtube-embed.html" with video_id=post.youtube_post.video_id %}
+        {% elif post.url_post %}
+            <a href="{{ post.url_post.url }}">{{ post.url_post.url }}</a>
+        {% endif %}
+    {% endfor %}
+    {% include '_pagination.html' %}
+{% endblock %}

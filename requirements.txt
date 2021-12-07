@@ -1,0 +1,5 @@
+Django
+Faker
+Pillow
+django-debug-toolbar
+django-polymorphic

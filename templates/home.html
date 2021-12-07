@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <p>
+        <a href="{% url 'socialnotpolymorphic:list' %}">Not polymorphic post list</a>
+    </p>
+    <p>
+        <a href="{% url "socialconcrete:list" %}">Concrete inheritance</a>
+    </p>
+    <p>
+        <a href="{% url "socialonetoone:list" %}">One to One</a>
+    </p>
+    <p>
+        <a href="{% url "socialonlyone:list" %}">Only one</a>
+    </p>
+
+    <p>
+        <a href="{% url "socialcontenttypes:list" %}">Content types</a>
+    </p>
+
+    <p>
+        <a href="{% url "socialpolymorphic-list" %}">Polymorphic</a>
+    </p>
+
+    <p>
+        <a href="{% url "socialjson:list" %}">JSON</a>
+    </p>
+{% endblock %}

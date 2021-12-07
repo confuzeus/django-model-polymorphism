@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load socialconcrete_tags %}
+
+{% block content %}
+    <ol>
+    <li><a href="{% url "socialconcrete:create" "text" %}">Create text post</a></li>
+    <li><a href="{% url "socialconcrete:create" "image" %}">Create image post</a></li>
+    <li><a href="{% url "socialconcrete:create" "youtube" %}">Create youtube post</a></li>
+    <li><a href="{% url "socialconcrete:create" "url" %}">Create url post</a></li>
+    </ol>
+    {% for post in posts %}
+        <h2>{{ post.title }}</h2>
+        {% get_actual_post post as post_data %}
+        {% with post_type=post_data.post_type actual_post=post_data.obj %}
+            {% if post_type == "text" %}
+                <p>{{ actual_post.body }}</p>
+            {% elif post_type == "image" %}
+                <img src="{{ actual_post.image.url }}" alt="{{ actual_post.title }}">
+            {% elif post_type == "youtube" %}
+                {% include "_youtube-embed.html" with video_id=actual_post.video_id %}
+            {% elif post_type == "url" %}
+                <a href="{{ actual_post.url }}">{{ actual_post.url }}</a>
+            {% endif %}
+        {% endwith %}
+
+    {% endfor %}
+{% include '_pagination.html' %}
+{% endblock %}
