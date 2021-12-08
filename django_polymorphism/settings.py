@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "socialcontenttypes",
     "socialpolymorphic",
     "socialjson",
+    "socialmodelutils",
     "core",
 ]
 

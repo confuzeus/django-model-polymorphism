@@ -15,6 +15,7 @@ from socialonlyone.models import Post as OneModelPost
 from socialcontenttypes import models as socialcontenttypes_models
 from socialpolymorphic import models as socialpolymorphic_models
 from socialjson.models import Post as SocialJsonPost
+from socialmodelutils import models as socialmodelutils_models
 
 User = get_user_model()
 
@@ -221,6 +222,34 @@ class Command(BaseCommand):
 
         self.stdout.write(self.style.SUCCESS("Success!"))
 
+    def _create_modelutils_posts(self):
+        self.stdout.write("Creating modelutils posts")
+
+        for user in User.objects.all():
+
+            socialmodelutils_models.TextPost.objects.create(
+                user=user, title=fake.sentence(), body=fake.paragraph()
+            )
+
+            socialmodelutils_models.YoutubeEmbedPost.objects.create(
+                user=user, title=fake.sentence(), video_id=random.choice(YOUTUBE_IDS)
+            )
+
+            random_image_path = get_random_image_path()
+            with random_image_path.open("rb") as image_file:
+                django_image_file = ImageFile(
+                    file=image_file, name=random_image_path.name
+                )
+                socialmodelutils_models.ImagePost.objects.create(
+                    user=user, title=fake.sentence(), image=django_image_file
+                )
+
+            socialmodelutils_models.URLPost.objects.create(
+                user=user, title=fake.sentence(), url=fake.uri()
+            )
+
+        self.stdout.write(self.style.SUCCESS("Success!"))
+
     def _create_concrete_posts(self):
         self.stdout.write("Creating concrete posts.")
 
@@ -353,3 +382,4 @@ class Command(BaseCommand):
         self._create_content_types_posts()
         self._create_polymorphic_posts()
         self._create_json_posts()
+        self._create_modelutils_posts()

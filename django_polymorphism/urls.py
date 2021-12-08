@@ -33,5 +33,6 @@ urlpatterns = [
         name="socialpolymorphic-list",
     ),
     path("socialjson/", include("socialjson.urls")),
+    path("socialmodelutils/", include("socialmodelutils.urls")),
     path("", TemplateView.as_view(template_name="home.html")),
 ]

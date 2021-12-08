@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load socialmodelutils_tags %}
+{% block content %}
+    {% for post in posts %}
+        <h2>{{ post.title }}</h2>
+        {% get_post_type post as post_type %}
+        {% if post_type == "text" %}
+            <p>{{ post.body }}</p>
+        {% elif post_type == "image" %}
+            <img src="{{ post.image.url }}" alt="{{ post.title }}">
+        {% elif post_type == "youtube" %}
+            {% include "_youtube-embed.html" with video_id=post.video_id %}
+        {% elif post_type == "url" %}
+            <a href="{{ post.url }}">{{ post.url }}</a>
+        {% endif %}
+    {% endfor %}
+{% include "_pagination.html" %}
+{% endblock %}

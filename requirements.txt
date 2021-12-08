@@ -3,3 +3,4 @@ Faker
 Pillow
 django-debug-toolbar
 django-polymorphic
+django-model-utils
